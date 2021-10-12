@@ -1,0 +1,21 @@
+name: "Slugify"
+description: "Github Action to slugify a value"
+author: "Romain Lespinasse"
+inputs:
+  key:
+    description: "Environment variable that will hold the value and serve as prefix to slugified value"
+    required: true
+  value:
+    description: "Value to slugify"
+    required: false
+branding:
+  icon: "crop"
+  color: "gray-dark"
+runs:
+  using: "composite"
+  steps:
+    - run: ${{ github.action_path }}/slugify.sh
+      shell: bash
+      env:
+        INPUT_KEY: ${{ inputs.key }}
+        INPUT_VALUE: ${{ inputs.value }}

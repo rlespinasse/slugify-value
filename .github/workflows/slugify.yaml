@@ -1,0 +1,41 @@
+name: Slugify testing
+on: [push]
+jobs:
+  slugify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Test 1
+      - name: Slugify key only
+        uses: ./
+        with:
+          key: KEY_TEST
+        env:
+          KEY_TEST: Key_Test.values
+      - name: Test result of key only
+        run: |
+          [[ "${{ env.KEY_TEST }}" == "Key_Test.values" ]]
+          [[ "${{ env.KEY_TEST_SLUG }}" == "key_test.values" ]]
+          [[ "${{ env.KEY_TEST_SLUG_CS }}" == "Key_Test.values" ]]
+          [[ "${{ env.KEY_TEST_SLUG_URL }}" == "key_test-values" ]]
+          [[ "${{ env.KEY_TEST_SLUG_URL_CS }}" == "Key_Test-values" ]]
+
+      # Test 2
+      - name: Slugify key/value
+        uses: ./
+        with:
+          key: KEY_VALUE_TEST
+          value: refs/pulls/feat/-----Some----Changes_to.be------
+      - name: Test result of key only
+        run: |
+          [[ "${{ env.KEY_VALUE_TEST }}" == "refs/pulls/feat/-----Some----Changes_to.be------" ]]
+          [[ "${{ env.KEY_VALUE_TEST_SLUG }}" == "feat-some-changes_to.be" ]]
+          [[ "${{ env.KEY_VALUE_TEST_SLUG_CS }}" == "feat-Some-Changes_to.be" ]]
+          [[ "${{ env.KEY_VALUE_TEST_SLUG_URL }}" == "feat-some-changes_to-be" ]]
+          [[ "${{ env.KEY_VALUE_TEST_SLUG_URL_CS }}" == "feat-Some-Changes_to-be" ]]
+
+      # Release
+      - name: Release this GitHub Action
+        uses: rlespinasse/release-that@v1.x
