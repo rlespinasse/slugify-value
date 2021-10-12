@@ -1,4 +1,4 @@
-name: "Slugify"
+name: "Slugify Value"
 description: "Github Action to slugify a value"
 author: "Romain Lespinasse"
 inputs:
