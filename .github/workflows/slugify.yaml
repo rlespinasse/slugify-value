@@ -1,8 +1,12 @@
 name: Slugify testing
 on: [push]
 jobs:
-  slugify:
-    runs-on: ubuntu-latest
+  slugify-on-os:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -21,6 +25,7 @@ jobs:
           [[ "${{ env.KEY_TEST_SLUG_CS }}" == "Key_Test.values" ]]
           [[ "${{ env.KEY_TEST_SLUG_URL }}" == "key_test-values" ]]
           [[ "${{ env.KEY_TEST_SLUG_URL_CS }}" == "Key_Test-values" ]]
+        shell: bash
 
       # Test 2
       - name: Slugify key/value
@@ -35,7 +40,16 @@ jobs:
           [[ "${{ env.KEY_VALUE_TEST_SLUG_CS }}" == "feat-Some-Changes_to.be" ]]
           [[ "${{ env.KEY_VALUE_TEST_SLUG_URL }}" == "feat-some-changes_to-be" ]]
           [[ "${{ env.KEY_VALUE_TEST_SLUG_URL_CS }}" == "feat-Some-Changes_to-be" ]]
+        shell: bash
+
+  slugify-release:
+    runs-on: ubuntu-latest
+    needs: slugify-on-os
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
       # Release
       - name: Release this GitHub Action
         uses: rlespinasse/release-that@v1.x
+    
