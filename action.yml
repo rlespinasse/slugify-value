@@ -14,7 +14,7 @@ branding:
 runs:
   using: "composite"
   steps:
-    - run: ${{ github.action_path }}/slugify.sh
+    - run: $GITHUB_ACTION_PATH/slugify.sh
       shell: bash
       env:
         INPUT_KEY: ${{ inputs.key }}
