@@ -24,7 +24,7 @@ Produce some `slug`-ed environment variables based on the input one.
 - Slugify a value and store it using a key
 
   ```yaml
-  - uses: rlespinasse/slugify@v1.x
+  - uses: rlespinasse/slugify-value@v1.x
     with:
       key: KEY_NAME
       value: value_to_slugify
@@ -40,7 +40,7 @@ Produce some `slug`-ed environment variables based on the input one.
 - Slugify the value of an environment variable
 
   ```yaml
-  - uses: rlespinasse/slugify@v1.x
+  - uses: rlespinasse/slugify-value@v1.x
     with:
       key: EXISTING_ENV_VAR
   ```
