@@ -32,6 +32,7 @@ Produce some `slug`-ed environment variables based on the input one.
 
   Will make available
 
+  - `KEY_NAME`
   - `KEY_NAME_SLUG`
   - `KEY_NAME_SLUG_CS`
   - `KEY_NAME_SLUG_URL`
