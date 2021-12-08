@@ -6,10 +6,12 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   KEY=$(echo "$INPUT_KEY" | tr '[:lower:]' '[:upper:]')
   CS_VALUE=${INPUT_VALUE:-${!INPUT_KEY}}
   VALUE=$(echo "$CS_VALUE" | tr '[:upper:]' '[:lower:]')
+  PREFIX=$(echo "$INPUT_PREFIX" | tr '[:lower:]' '[:upper:]')
 else
   KEY=${INPUT_KEY^^}
   CS_VALUE=${INPUT_VALUE:-${!INPUT_KEY}}
   VALUE=${CS_VALUE,,}
+  PREFIX=${INPUT_PREFIX^^}
 fi
 
 slug() {
@@ -25,9 +27,9 @@ slug_url() {
 }
 
 {
-  echo "${KEY}=${CS_VALUE}"
-  echo "${KEY}_SLUG=$(slug "$VALUE")"
-  echo "${KEY}_SLUG_CS=$(slug "$CS_VALUE")"
-  echo "${KEY}_SLUG_URL=$(slug_url "$VALUE")"
-  echo "${KEY}_SLUG_URL_CS=$(slug_url "$CS_VALUE")"
+  echo "${PREFIX}${KEY}=${CS_VALUE}"
+  echo "${PREFIX}${KEY}_SLUG=$(slug "$VALUE")"
+  echo "${PREFIX}${KEY}_SLUG_CS=$(slug "$CS_VALUE")"
+  echo "${PREFIX}${KEY}_SLUG_URL=$(slug_url "$VALUE")"
+  echo "${PREFIX}${KEY}_SLUG_URL_CS=$(slug_url "$CS_VALUE")"
 } >>"$GITHUB_ENV"

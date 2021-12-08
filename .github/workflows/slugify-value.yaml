@@ -7,6 +7,9 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+    concurrency:
+      group: slugify-on-os-${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -18,7 +21,7 @@ jobs:
           key: KEY_TEST
         env:
           KEY_TEST: Key_Test.values
-      - name: Test result of key only
+      - name: Validate // Slugify key only
         run: |
           [[ "${{ env.KEY_TEST }}" == "Key_Test.values" ]]
           [[ "${{ env.KEY_TEST_SLUG }}" == "key_test.values" ]]
@@ -28,12 +31,29 @@ jobs:
         shell: bash
 
       # Test 2
+      - name: Slugify key only with prefix
+        uses: ./
+        with:
+          key: KEY_TEST
+          prefix: CI_
+        env:
+          KEY_TEST: Key_Test.values
+      - name: Validate // Slugify key only with prefix
+        run: |
+          [[ "${{ env.CI_KEY_TEST }}" == "${{ env.KEY_TEST }}" ]]
+          [[ "${{ env.CI_KEY_TEST_SLUG }}" == "${{ env.KEY_TEST_SLUG }}" ]]
+          [[ "${{ env.CI_KEY_TEST_SLUG_CS }}" == "${{ env.KEY_TEST_SLUG_CS }}" ]]
+          [[ "${{ env.CI_KEY_TEST_SLUG_URL }}" == "${{ env.KEY_TEST_SLUG_URL }}" ]]
+          [[ "${{ env.CI_KEY_TEST_SLUG_URL_CS }}" == "${{ env.KEY_TEST_SLUG_URL_CS }}" ]]
+        shell: bash
+
+      # Test 3
       - name: Slugify key/value
         uses: ./
         with:
           key: KEY_VALUE_TEST
           value: refs/pulls/feat/-----Some----Changes_to.be------
-      - name: Test result of key only
+      - name: Validate // Slugify key/value
         run: |
           [[ "${{ env.KEY_VALUE_TEST }}" == "refs/pulls/feat/-----Some----Changes_to.be------" ]]
           [[ "${{ env.KEY_VALUE_TEST_SLUG }}" == "feat-some-changes_to.be" ]]
@@ -44,6 +64,8 @@ jobs:
 
   slugify-release:
     runs-on: ubuntu-latest
+    concurrency:
+      group: slugify-release-${{ github.ref }}
     needs: slugify-on-os
     steps:
       - name: Checkout
@@ -52,4 +74,3 @@ jobs:
       # Release
       - name: Release this GitHub Action
         uses: rlespinasse/release-that@v1.x
-    
