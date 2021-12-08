@@ -52,3 +52,28 @@ Produce some `slug`-ed environment variables based on the input one.
   - `EXISTING_ENV_VAR_SLUG_CS`
   - `EXISTING_ENV_VAR_SLUG_URL`
   - `EXISTING_ENV_VAR_SLUG_URL_CS`
+
+- Slugify the value of an environment variable with prefix
+
+  ```yaml
+  - uses: rlespinasse/slugify-value@v1.x
+    with:
+      key: EXISTING_ENV_VAR
+      prefix: CI_
+  ```
+
+  Will make available
+
+  - `CI_EXISTING_ENV_VAR`
+  - `CI_EXISTING_ENV_VAR_SLUG`
+  - `CI_EXISTING_ENV_VAR_SLUG_CS`
+  - `CI_EXISTING_ENV_VAR_SLUG_URL`
+  - `CI_EXISTING_ENV_VAR_SLUG_URL_CS`
+
+## Inputs
+
+### `prefix`
+
+The value will be prepend to each generated variable.
+
+This input is _Optional_.
