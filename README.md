@@ -70,10 +70,50 @@ Produce some `slug`-ed environment variables based on the input one.
   - `CI_EXISTING_ENV_VAR_SLUG_URL`
   - `CI_EXISTING_ENV_VAR_SLUG_URL_CS`
 
+- Slugify a value with a different slug length
+
+  ```yaml
+  - uses: rlespinasse/slugify-value@v1.x
+    with:
+      key: EXISTING_ENV_VAR
+      slug-maxlength: 80
+  ```
+
+  Will produce SLUG variables with a 80-char length
+
+- Slugify a value without 
+
+  ```yaml
+  - uses: rlespinasse/slugify-value@v1.x
+    with:
+      key: EXISTING_ENV_VAR
+      slug-maxlength: "nolimit"
+  ```
+
+  Will produce SLUG variables without limiting the output length
+
 ## Inputs
+
+### `key`
+
+Environment variable that will hold the value and serve as prefix to slugified value.
+
+This input is _Mandatory_.
+
+### `value`
+
+The value to slugify. If not set the value will be taken from the `key` input as environment variable.
+
+This input is _Optional_.
 
 ### `prefix`
 
 The value will be prepend to each generated variable.
 
 This input is _Optional_.
+
+### `slug-maxlength`
+
+The value is a number or `nolimit` to reflect the length of the slug outputs
+
+This input is _Optional_. The default value is `63`.

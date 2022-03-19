@@ -12,6 +12,10 @@ inputs:
     description: "Value to prepend to each generated variable"
     default: ""
     required: false
+  slug-maxlength:
+    description: "Max length of the slugified values"
+    default: "63"
+    required: true
 branding:
   icon: "crop"
   color: "gray-dark"
@@ -24,3 +28,4 @@ runs:
         INPUT_KEY: ${{ inputs.key }}
         INPUT_VALUE: ${{ inputs.value }}
         INPUT_PREFIX: ${{ inputs.prefix }}
+        INPUT_SLUG_MAXLENGTH: ${{ inputs.slug-maxlength }}

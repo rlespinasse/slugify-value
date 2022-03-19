@@ -1,18 +1,15 @@
-name: Slugify testing
+name: Slugify Value
 on: [push]
 jobs:
-  slugify-on-os:
+  os-testing:
     strategy:
       fail-fast: false
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
-    concurrency:
-      group: slugify-on-os-${{ github.ref }}
-      cancel-in-progress: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Test 1
       - name: Slugify key only
@@ -62,15 +59,88 @@ jobs:
           [[ "${{ env.KEY_VALUE_TEST_SLUG_URL_CS }}" == "feat-Some-Changes_to-be" ]]
         shell: bash
 
-  slugify-release:
+      # Test 4
+      - name: Slugify with another max length
+        uses: ./
+        with:
+          key: KEY_VALUE_TEST
+          value: refs/pulls/feat/-----Some----Changes_to.be------
+          slug-maxlength: 12
+      - name: Validate // Slugify with another max length
+        run: |
+          [[ "${{ env.KEY_VALUE_TEST }}" == "refs/pulls/feat/-----Some----Changes_to.be------" ]]
+          [[ "${{ env.KEY_VALUE_TEST_SLUG }}" == "feat-some-ch" ]]
+          [[ "${{ env.KEY_VALUE_TEST_SLUG_CS }}" == "feat-Some-Ch" ]]
+          [[ "${{ env.KEY_VALUE_TEST_SLUG_URL }}" == "feat-some-ch" ]]
+          [[ "${{ env.KEY_VALUE_TEST_SLUG_URL_CS }}" == "feat-Some-Ch" ]]
+        shell: bash
+
+      # Test 5
+      - name: Slugify with no limit on max length
+        uses: ./
+        with:
+          key: KEY_VALUE_TEST
+          value: refs/pulls/feat/-----Some----Changes_to.be-----Some----Changes_to.be-----Some----Changes_to.be-----Some----Changes_to.be------
+          slug-maxlength: "nolimit"
+      - name: Validate // Slugify with no limit on max length
+        run: |
+          [[ "${{ env.KEY_VALUE_TEST }}" == "refs/pulls/feat/-----Some----Changes_to.be-----Some----Changes_to.be-----Some----Changes_to.be-----Some----Changes_to.be------" ]]
+          [[ "${{ env.KEY_VALUE_TEST_SLUG }}" == "feat-some-changes_to.be-some-changes_to.be-some-changes_to.be-some-changes_to.be" ]]
+          [[ "${{ env.KEY_VALUE_TEST_SLUG_CS }}" == "feat-Some-Changes_to.be-Some-Changes_to.be-Some-Changes_to.be-Some-Changes_to.be" ]]
+          [[ "${{ env.KEY_VALUE_TEST_SLUG_URL }}" == "feat-some-changes_to-be-some-changes_to-be-some-changes_to-be-some-changes_to-be" ]]
+          [[ "${{ env.KEY_VALUE_TEST_SLUG_URL_CS }}" == "feat-Some-Changes_to-be-Some-Changes_to-be-Some-Changes_to-be-Some-Changes_to-be" ]]
+        shell: bash
+
+      # Test 6
+      - name: Slugify with empty max length
+        id: slugify-with-empty-max-length
+        uses: ./
+        with:
+          key: EMPTY_MAXLENGTH
+          value: some_value
+          slug-maxlength: ""
+        continue-on-error: true
+      - name: Validate // Slugify with empty max length
+        run: |
+          [[ -z "${{ env.EMPTY_MAXLENGTH }}" ]]
+          [[ -z "${{ env.EMPTY_MAXLENGTH_SLUG }}" ]]
+          [[ -z "${{ env.EMPTY_MAXLENGTH_SLUG_CS }}" ]]
+          [[ -z "${{ env.EMPTY_MAXLENGTH_SLUG_URL }}" ]]
+          [[ -z "${{ env.EMPTY_MAXLENGTH_SLUG_URL_CS }}" ]]
+          [[ "${{ steps.slugify-with-empty-max-length.outcome }}" == "failure" ]]
+          [[ "${{ steps.slugify-with-empty-max-length.conclusion }}" == "success" ]]
+        shell: bash
+
+      # Test 7
+      - name: Slugify with wrong max length
+        id: slugify-with-wrong-max-length
+        uses: ./
+        with:
+          key: WRONG_MAXLENGTH
+          value: some_value
+          slug-maxlength: "wrong"
+        continue-on-error: true
+      - name: Validate // Slugify with wrong max length
+        run: |
+          [[ -z "${{ env.WRONG_MAXLENGTH }}" ]]
+          [[ -z "${{ env.WRONG_MAXLENGTH_SLUG }}" ]]
+          [[ -z "${{ env.WRONG_MAXLENGTH_SLUG_CS }}" ]]
+          [[ -z "${{ env.WRONG_MAXLENGTH_SLUG_URL }}" ]]
+          [[ -z "${{ env.WRONG_MAXLENGTH_SLUG_URL_CS }}" ]]
+          [[ "${{ steps.slugify-with-wrong-max-length.outcome }}" == "failure" ]]
+          [[ "${{ steps.slugify-with-wrong-max-length.conclusion }}" == "success" ]]
+        shell: bash
+
+  release:
     runs-on: ubuntu-latest
     concurrency:
-      group: slugify-release-${{ github.ref }}
-    needs: slugify-on-os
+      group: release-${{ github.ref }}
+    needs:
+      - os-testing
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Release
       - name: Release this GitHub Action
-        uses: rlespinasse/release-that@v1.x
+        uses: rlespinasse/release-that@v1
