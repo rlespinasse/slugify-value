@@ -73,10 +73,10 @@ jobs:
       - name: Validate // Slugify with another max length
         run: |
           [[ "${{ env.KEY_VALUE_TEST }}" == "refs/pulls/feat/-----Some----Changes_to.be------" ]]
-          [[ "${{ env.KEY_VALUE_TEST_SLUG }}" == "feat-some-ch" ]]
-          [[ "${{ env.KEY_VALUE_TEST_SLUG_CS }}" == "feat-Some-Ch" ]]
-          [[ "${{ env.KEY_VALUE_TEST_SLUG_URL }}" == "feat-some-ch" ]]
-          [[ "${{ env.KEY_VALUE_TEST_SLUG_URL_CS }}" == "feat-Some-Ch" ]]
+          [[ "${{ env.KEY_VALUE_TEST_SLUG }}" == "feat------so" ]]
+          [[ "${{ env.KEY_VALUE_TEST_SLUG_CS }}" == "feat------So" ]]
+          [[ "${{ env.KEY_VALUE_TEST_SLUG_URL }}" == "feat------so" ]]
+          [[ "${{ env.KEY_VALUE_TEST_SLUG_URL_CS }}" == "feat------So" ]]
         shell: bash
 
       # Test 5
