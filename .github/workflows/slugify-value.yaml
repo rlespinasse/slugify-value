@@ -56,7 +56,7 @@ jobs:
           value: refs/pulls/feat/-----Some----Changes_to.be------
       - name: Validate // Slugify key/value
         run: |
-          [[ "${{ env.KEY_VALUE_TEST }}" == "refs/pulls/feat/------Some----Changes_to.be------" ]]
+          [[ "${{ env.KEY_VALUE_TEST }}" == "refs/pulls/feat/-----Some----Changes_to.be------" ]]
           [[ "${{ env.KEY_VALUE_TEST_SLUG }}" == "feat------some----changes_to.be" ]]
           [[ "${{ env.KEY_VALUE_TEST_SLUG_CS }}" == "feat------Some----Changes_to.be" ]]
           [[ "${{ env.KEY_VALUE_TEST_SLUG_URL }}" == "feat------some----changes_to-be" ]]
