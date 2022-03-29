@@ -28,7 +28,11 @@ else
 fi
 
 slug() {
-  output=$(sed -E 's#refs/[^\/]*/##;s/[^a-zA-Z0-9._-]+/-/g;s/^-*//;s/-*$//' <<<"$1")
+  # 1st : Remove refs prefix
+  # 2d : Replace unwanted characters
+  # 3d : Remove leading dashes
+  # 4d : Remove trailing dashes
+  output=$(sed -E 's#refs/[^\/]*/##;s/[^a-zA-Z0-9._]+/-/g;s/^-*//;s/-*$//' <<<"$1")
   reduce "$output"
 }
 
