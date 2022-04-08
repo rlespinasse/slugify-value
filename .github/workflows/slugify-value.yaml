@@ -19,80 +19,80 @@ jobs:
       - name: Slugify key only
         uses: ./
         with:
-          key: KEY_TEST
+          key: KEY_ONLY
         env:
-          KEY_TEST: Key_Test.values
+          KEY_ONLY: "refs/head/$-Key_Only.test--value-%-+"
       - name: Validate // Slugify key only
         run: |
-          [[ "${{ env.KEY_TEST }}" == "Key_Test.values" ]]
-          [[ "${{ env.KEY_TEST_SLUG }}" == "key_test.values" ]]
-          [[ "${{ env.KEY_TEST_SLUG_CS }}" == "Key_Test.values" ]]
-          [[ "${{ env.KEY_TEST_SLUG_URL }}" == "key-test-values" ]]
-          [[ "${{ env.KEY_TEST_SLUG_URL_CS }}" == "Key-Test-values" ]]
+          [[ "${{ env.KEY_ONLY }}" == "refs/head/$-Key_Only.test--value-%-+" ]]
+          [[ "${{ env.KEY_ONLY_SLUG }}" == "key_only.test--value" ]]
+          [[ "${{ env.KEY_ONLY_SLUG_CS }}" == "Key_Only.test--value" ]]
+          [[ "${{ env.KEY_ONLY_SLUG_URL }}" == "key-only-test--value" ]]
+          [[ "${{ env.KEY_ONLY_SLUG_URL_CS }}" == "Key-Only-test--value" ]]
         shell: bash
 
       # Test 2
       - name: Slugify key only with prefix
         uses: ./
         with:
-          key: KEY_TEST
+          key: KEY_ONLY_WITH_PREFIX
           prefix: CI_
         env:
-          KEY_TEST: Key_Test.values
+          KEY_ONLY_WITH_PREFIX: ${{ env.KEY_ONLY }}
       - name: Validate // Slugify key only with prefix
         run: |
-          [[ "${{ env.CI_KEY_TEST }}" == "${{ env.KEY_TEST }}" ]]
-          [[ "${{ env.CI_KEY_TEST_SLUG }}" == "${{ env.KEY_TEST_SLUG }}" ]]
-          [[ "${{ env.CI_KEY_TEST_SLUG_CS }}" == "${{ env.KEY_TEST_SLUG_CS }}" ]]
-          [[ "${{ env.CI_KEY_TEST_SLUG_URL }}" == "${{ env.KEY_TEST_SLUG_URL }}" ]]
-          [[ "${{ env.CI_KEY_TEST_SLUG_URL_CS }}" == "${{ env.KEY_TEST_SLUG_URL_CS }}" ]]
+          [[ "${{ env.CI_KEY_ONLY_WITH_PREFIX }}" == "${{ env.KEY_ONLY }}" ]]
+          [[ "${{ env.CI_KEY_ONLY_WITH_PREFIX_SLUG }}" == "${{ env.KEY_ONLY_SLUG }}" ]]
+          [[ "${{ env.CI_KEY_ONLY_WITH_PREFIX_SLUG_CS }}" == "${{ env.KEY_ONLY_SLUG_CS }}" ]]
+          [[ "${{ env.CI_KEY_ONLY_WITH_PREFIX_SLUG_URL }}" == "${{ env.KEY_ONLY_SLUG_URL }}" ]]
+          [[ "${{ env.CI_KEY_ONLY_WITH_PREFIX_SLUG_URL_CS }}" == "${{ env.KEY_ONLY_SLUG_URL_CS }}" ]]
         shell: bash
 
       # Test 3
       - name: Slugify key/value
         uses: ./
         with:
-          key: KEY_VALUE_TEST
-          value: refs/pulls/feat/-----Some----Changes_to.be------
+          key: KEY_VALUE
+          value: "Never gonna give you up Never gonna let you down"
       - name: Validate // Slugify key/value
         run: |
-          [[ "${{ env.KEY_VALUE_TEST }}" == "refs/pulls/feat/-----Some----Changes_to.be------" ]]
-          [[ "${{ env.KEY_VALUE_TEST_SLUG }}" == "feat-some-changes_to.be" ]]
-          [[ "${{ env.KEY_VALUE_TEST_SLUG_CS }}" == "feat-Some-Changes_to.be" ]]
-          [[ "${{ env.KEY_VALUE_TEST_SLUG_URL }}" == "feat-some-changes-to-be" ]]
-          [[ "${{ env.KEY_VALUE_TEST_SLUG_URL_CS }}" == "feat-Some-Changes-to-be" ]]
+          [[ "${{ env.KEY_VALUE }}" == "Never gonna give you up Never gonna let you down" ]]
+          [[ "${{ env.KEY_VALUE_SLUG }}" == "never-gonna-give-you-up-never-gonna-let-you-down" ]]
+          [[ "${{ env.KEY_VALUE_SLUG_CS }}" == "Never-gonna-give-you-up-Never-gonna-let-you-down" ]]
+          [[ "${{ env.KEY_VALUE_SLUG_URL }}" == "never-gonna-give-you-up-never-gonna-let-you-down" ]]
+          [[ "${{ env.KEY_VALUE_SLUG_URL_CS }}" == "Never-gonna-give-you-up-Never-gonna-let-you-down" ]]
         shell: bash
 
       # Test 4
       - name: Slugify with another max length
         uses: ./
         with:
-          key: KEY_VALUE_TEST
-          value: refs/pulls/feat/-----Some----Changes_to.be------
-          slug-maxlength: 12
+          key: ANOTHER_MAX_LENGTH
+          value: "Never gonna give you up Never gonna let you down"
+          slug-maxlength: 23
       - name: Validate // Slugify with another max length
         run: |
-          [[ "${{ env.KEY_VALUE_TEST }}" == "refs/pulls/feat/-----Some----Changes_to.be------" ]]
-          [[ "${{ env.KEY_VALUE_TEST_SLUG }}" == "feat-some-ch" ]]
-          [[ "${{ env.KEY_VALUE_TEST_SLUG_CS }}" == "feat-Some-Ch" ]]
-          [[ "${{ env.KEY_VALUE_TEST_SLUG_URL }}" == "feat-some-ch" ]]
-          [[ "${{ env.KEY_VALUE_TEST_SLUG_URL_CS }}" == "feat-Some-Ch" ]]
+          [[ "${{ env.ANOTHER_MAX_LENGTH }}" == "Never gonna give you up Never gonna let you down" ]]
+          [[ "${{ env.ANOTHER_MAX_LENGTH_SLUG }}" == "never-gonna-give-you-up" ]]
+          [[ "${{ env.ANOTHER_MAX_LENGTH_SLUG_CS }}" == "Never-gonna-give-you-up" ]]
+          [[ "${{ env.ANOTHER_MAX_LENGTH_SLUG_URL }}" == "never-gonna-give-you-up" ]]
+          [[ "${{ env.ANOTHER_MAX_LENGTH_SLUG_URL_CS }}" == "Never-gonna-give-you-up" ]]
         shell: bash
 
       # Test 5
       - name: Slugify with no limit on max length
         uses: ./
         with:
-          key: KEY_VALUE_TEST
-          value: refs/pulls/feat/-----Some----Changes_to.be-----Some----Changes_to.be-----Some----Changes_to.be-----Some----Changes_to.be------
+          key: NO_MAX_LENGTH
+          value: "Never gonna give you up Never gonna let you down Never gonna run around and desert you Never gonna make you cry Never gonna say goodbye Never gonna tell a lie and hurt you"
           slug-maxlength: "nolimit"
       - name: Validate // Slugify with no limit on max length
         run: |
-          [[ "${{ env.KEY_VALUE_TEST }}" == "refs/pulls/feat/-----Some----Changes_to.be-----Some----Changes_to.be-----Some----Changes_to.be-----Some----Changes_to.be------" ]]
-          [[ "${{ env.KEY_VALUE_TEST_SLUG }}" == "feat-some-changes_to.be-some-changes_to.be-some-changes_to.be-some-changes_to.be" ]]
-          [[ "${{ env.KEY_VALUE_TEST_SLUG_CS }}" == "feat-Some-Changes_to.be-Some-Changes_to.be-Some-Changes_to.be-Some-Changes_to.be" ]]
-          [[ "${{ env.KEY_VALUE_TEST_SLUG_URL }}" == "feat-some-changes-to-be-some-changes-to-be-some-changes-to-be-some-changes-to-be" ]]
-          [[ "${{ env.KEY_VALUE_TEST_SLUG_URL_CS }}" == "feat-Some-Changes-to-be-Some-Changes-to-be-Some-Changes-to-be-Some-Changes-to-be" ]]
+          [[ "${{ env.NO_MAX_LENGTH }}" == "Never gonna give you up Never gonna let you down Never gonna run around and desert you Never gonna make you cry Never gonna say goodbye Never gonna tell a lie and hurt you" ]]
+          [[ "${{ env.NO_MAX_LENGTH_SLUG }}" == "never-gonna-give-you-up-never-gonna-let-you-down-never-gonna-run-around-and-desert-you-never-gonna-make-you-cry-never-gonna-say-goodbye-never-gonna-tell-a-lie-and-hurt-you" ]]
+          [[ "${{ env.NO_MAX_LENGTH_SLUG_CS }}" == "Never-gonna-give-you-up-Never-gonna-let-you-down-Never-gonna-run-around-and-desert-you-Never-gonna-make-you-cry-Never-gonna-say-goodbye-Never-gonna-tell-a-lie-and-hurt-you" ]]
+          [[ "${{ env.NO_MAX_LENGTH_SLUG_URL }}" == "never-gonna-give-you-up-never-gonna-let-you-down-never-gonna-run-around-and-desert-you-never-gonna-make-you-cry-never-gonna-say-goodbye-never-gonna-tell-a-lie-and-hurt-you" ]]
+          [[ "${{ env.NO_MAX_LENGTH_SLUG_URL_CS }}" == "Never-gonna-give-you-up-Never-gonna-let-you-down-Never-gonna-run-around-and-desert-you-Never-gonna-make-you-cry-Never-gonna-say-goodbye-Never-gonna-tell-a-lie-and-hurt-you" ]]
         shell: bash
 
       # Test 6
