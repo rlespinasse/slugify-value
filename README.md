@@ -17,7 +17,7 @@ Produce some `slug`-ed environment variables based on the input one.
 
 - `<env name>_SLUG_URL` (or `<env name>_SLUG_URL_CS`)
 
-  - like `<env name>_SLUG` (or `<env name>_SLUG_CS`) with the `.` character also replaced by `-`
+  - like `<env name>_SLUG` (or `<env name>_SLUG_CS`) with the `.`, and `_` characters also replaced by `-`
 
 ## Usage
 
@@ -81,7 +81,7 @@ Produce some `slug`-ed environment variables based on the input one.
 
   Will produce SLUG variables with a 80-char length
 
-- Slugify a value without 
+- Slugify a value without length limit
 
   ```yaml
   - uses: rlespinasse/slugify-value@v1.x

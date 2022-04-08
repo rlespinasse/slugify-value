@@ -27,8 +27,8 @@ jobs:
           [[ "${{ env.KEY_TEST }}" == "Key_Test.values" ]]
           [[ "${{ env.KEY_TEST_SLUG }}" == "key_test.values" ]]
           [[ "${{ env.KEY_TEST_SLUG_CS }}" == "Key_Test.values" ]]
-          [[ "${{ env.KEY_TEST_SLUG_URL }}" == "key_test-values" ]]
-          [[ "${{ env.KEY_TEST_SLUG_URL_CS }}" == "Key_Test-values" ]]
+          [[ "${{ env.KEY_TEST_SLUG_URL }}" == "key-test-values" ]]
+          [[ "${{ env.KEY_TEST_SLUG_URL_CS }}" == "Key-Test-values" ]]
         shell: bash
 
       # Test 2

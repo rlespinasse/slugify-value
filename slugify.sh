@@ -33,7 +33,7 @@ slug() {
 }
 
 slug_url() {
-  output=$(sed -E 's#refs/[^\/]*/##;s/[^a-zA-Z0-9_-]+/-/g;s/-+/-/g;s/^-*//;s/-*$//' <<<"$1")
+  output=$(sed -E 's#refs/[^\/]*/##;s/[^a-zA-Z0-9-]+/-/g;s/-+/-/g;s/^-*//;s/-*$//' <<<"$1")
   reduce "$output"
 }
 
