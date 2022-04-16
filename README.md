@@ -114,6 +114,12 @@ This input is _Optional_.
 
 ### `slug-maxlength`
 
-The value is a number or `nolimit` to reflect the length of the slug outputs
+The value is a number or `nolimit` to reflect the length of the slug outputs.
 
 This input is _Optional_. The default value is `63`.
+
+### `publish-env`
+
+In addition of the action output, the slug values are publish as environment variables.
+
+This input is _Optional_. The default value is `true`.

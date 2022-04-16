@@ -1,6 +1,9 @@
 name: "Slugify Value"
 description: "Github Action to slugify a value"
 author: "Romain Lespinasse"
+branding:
+  icon: "crop"
+  color: "gray-dark"
 inputs:
   key:
     description: "Environment variable that will hold the value and serve as prefix to slugified value"
@@ -16,16 +19,35 @@ inputs:
     description: "Max length of the slugified values"
     default: "63"
     required: true
-branding:
-  icon: "crop"
-  color: "gray-dark"
+  publish-env:
+    description: "Publish slugs as environment variables"
+    default: "true"
+    required: true
+outputs:
+  value:
+    description: "Value"
+    value: ${{ steps.slugify.outputs.value }}
+  slug:
+    description: "Value slug"
+    value: ${{ steps.slugify.outputs.slug }}
+  slug-cs:
+    description: "Value Slug (Case-sensitive)"
+    value: ${{ steps.slugify.outputs.slug-cs }}
+  slug-url:
+    description: "Value Slug URL"
+    value: ${{ steps.slugify.outputs.slug-url }}
+  slug-url-cs:
+    description: "Value Slug URL (Case-sensitive)"
+    value: ${{ steps.slugify.outputs.slug-url-cs }}
 runs:
   using: "composite"
   steps:
-    - run: $GITHUB_ACTION_PATH/slugify.sh
+    - id: slugify
+      run: $GITHUB_ACTION_PATH/slugify.sh
       shell: bash
       env:
         INPUT_KEY: ${{ inputs.key }}
         INPUT_VALUE: ${{ inputs.value }}
         INPUT_PREFIX: ${{ inputs.prefix }}
         INPUT_SLUG_MAXLENGTH: ${{ inputs.slug-maxlength }}
+        INPUT_PUBLISH_ENV: ${{ inputs.publish-env }}

@@ -17,6 +17,7 @@ jobs:
 
       # Test 1
       - name: Slugify key only
+        id: slugify-key-only
         uses: ./
         with:
           key: KEY_ONLY
@@ -29,6 +30,11 @@ jobs:
           [[ "${{ env.KEY_ONLY_SLUG_CS }}" == "Key_Only.test--value" ]]
           [[ "${{ env.KEY_ONLY_SLUG_URL }}" == "key-only-test--value" ]]
           [[ "${{ env.KEY_ONLY_SLUG_URL_CS }}" == "Key-Only-test--value" ]]
+          [[ "${{ env.KEY_ONLY }}" == "${{ steps.slugify-key-only.outputs.value }}" ]]
+          [[ "${{ env.KEY_ONLY_SLUG }}" == "${{ steps.slugify-key-only.outputs.slug }}" ]]
+          [[ "${{ env.KEY_ONLY_SLUG_CS }}" == "${{ steps.slugify-key-only.outputs.slug-cs }}" ]]
+          [[ "${{ env.KEY_ONLY_SLUG_URL }}" == "${{ steps.slugify-key-only.outputs.slug-url }}" ]]
+          [[ "${{ env.KEY_ONLY_SLUG_URL_CS }}" == "${{ steps.slugify-key-only.outputs.slug-url-cs }}" ]]
         shell: bash
 
       # Test 2
@@ -133,6 +139,29 @@ jobs:
           [[ -z "${{ env.WRONG_MAXLENGTH_SLUG_URL_CS }}" ]]
           [[ "${{ steps.slugify-with-wrong-max-length.outcome }}" == "failure" ]]
           [[ "${{ steps.slugify-with-wrong-max-length.conclusion }}" == "success" ]]
+        shell: bash
+
+      # Test 8
+      - name: Slugify key without env publication
+        id: slugify-key-without-env-publication
+        uses: ./
+        with:
+          key: KEY_WITHTOUT_ENV_PUBLICATION
+          publish-env: false
+        env:
+          KEY_WITHTOUT_ENV_PUBLICATION: "Never gonna give you up"
+      - name: Validate // Slugify key without env publication
+        run: |
+          [[ -z "${{ env.KEY_WITHTOUT_ENV_PUBLICATION }}" ]]
+          [[ -z "${{ env.KEY_WITHTOUT_ENV_PUBLICATION_SLUG }}" ]]
+          [[ -z "${{ env.KEY_WITHTOUT_ENV_PUBLICATION_SLUG_CS }}" ]]
+          [[ -z "${{ env.KEY_WITHTOUT_ENV_PUBLICATION_SLUG_URL }}" ]]
+          [[ -z "${{ env.KEY_WITHTOUT_ENV_PUBLICATION_SLUG_URL_CS }}" ]]
+          [[ "${{ steps.slugify-key-without-env-publication.outputs.value }}" == "Never gonna give you up" ]]
+          [[ "${{ steps.slugify-key-without-env-publication.outputs.slug }}" == "never-gonna-give-you-up" ]]
+          [[ "${{ steps.slugify-key-without-env-publication.outputs.slug-cs }}" == "Never-gonna-give-you-up" ]]
+          [[ "${{ steps.slugify-key-without-env-publication.outputs.slug-url }}" == "never-gonna-give-you-up" ]]
+          [[ "${{ steps.slugify-key-without-env-publication.outputs.slug-url-cs }}" == "Never-gonna-give-you-up" ]]
         shell: bash
 
   release:
