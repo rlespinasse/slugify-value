@@ -53,10 +53,23 @@ reduce() {
   fi
 }
 
-{
-  echo "${PREFIX}${KEY}=${CS_VALUE}"
-  echo "${PREFIX}${KEY}_SLUG=$(slug "$VALUE")"
-  echo "${PREFIX}${KEY}_SLUG_CS=$(slug "$CS_VALUE")"
-  echo "${PREFIX}${KEY}_SLUG_URL=$(slug_url "$VALUE")"
-  echo "${PREFIX}${KEY}_SLUG_URL_CS=$(slug_url "$CS_VALUE")"
-} >>"$GITHUB_ENV"
+SLUG_VALUE=$(slug "$VALUE")
+SLUG_CS_VALUE=$(slug "$CS_VALUE")
+SLUG_URL_VALUE=$(slug_url "$VALUE")
+SLUG_URL_CS_VALUE=$(slug_url "$CS_VALUE")
+
+echo "::set-output name=value::${CS_VALUE}"
+echo "::set-output name=slug::${SLUG_VALUE}"
+echo "::set-output name=slug-cs::${SLUG_CS_VALUE}"
+echo "::set-output name=slug-url::${SLUG_URL_VALUE}"
+echo "::set-output name=slug-url-cs::${SLUG_URL_CS_VALUE}"
+
+if [ "${INPUT_PUBLISH_ENV}" == "true" ]; then
+  {
+    echo "${PREFIX}${KEY}=${CS_VALUE}"
+    echo "${PREFIX}${KEY}_SLUG=${SLUG_VALUE}"
+    echo "${PREFIX}${KEY}_SLUG_CS=${SLUG_CS_VALUE}"
+    echo "${PREFIX}${KEY}_SLUG_URL=${SLUG_URL_VALUE}"
+    echo "${PREFIX}${KEY}_SLUG_URL_CS=${SLUG_URL_CS_VALUE}"
+  } >>"$GITHUB_ENV"
+fi
