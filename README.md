@@ -92,34 +92,39 @@ Produce some `slug`-ed environment variables based on the input one.
 
   Will produce SLUG variables without limiting the output length
 
+- Slugify a value without publishing the environment variables
+
+  ```yaml
+  - uses: rlespinasse/slugify-value@v1.x
+    with:
+      key: KEY_NAME
+      value: value_to_slugify
+  ```
+
+  Will **not** make available
+
+  - `KEY_NAME`
+  - `KEY_NAME_SLUG`
+  - `KEY_NAME_SLUG_CS`
+  - `KEY_NAME_SLUG_URL`
+  - `KEY_NAME_SLUG_URL_CS`
+
 ## Inputs
 
-### `key`
+| Input          | Description                                                                                           | Mandatory | Default |
+| -------------- | ----------------------------------------------------------------------------------------------------- | --------- | ------- |
+| key            | Environment variable that will hold the value and serve as prefix to slugified value                  | Yes       |         |
+| value          | The value to slugify. If not set the value will be taken from the `key` input as environment variable | No        |         |
+| prefix         | The value will be prepend to each generated variable                                                  | No        |         |
+| slug-maxlength | The value is a number or `nolimit` to reflect the length of the slug outputs                          | No        | 63      |
+| publish-env    | In addition of the action output, the slug values are publish as environment variables                | No        | true    |
 
-Environment variable that will hold the value and serve as prefix to slugified value.
+## Outputs
 
-This input is _Mandatory_.
-
-### `value`
-
-The value to slugify. If not set the value will be taken from the `key` input as environment variable.
-
-This input is _Optional_.
-
-### `prefix`
-
-The value will be prepend to each generated variable.
-
-This input is _Optional_.
-
-### `slug-maxlength`
-
-The value is a number or `nolimit` to reflect the length of the slug outputs.
-
-This input is _Optional_. The default value is `63`.
-
-### `publish-env`
-
-In addition of the action output, the slug values are publish as environment variables.
-
-This input is _Optional_. The default value is `true`.
+| Output      | Description                     |
+| ----------- | ------------------------------- |
+| value       | The value to be slugify         |
+| slug        | Value Slug                      |
+| slug-cs     | Value Slug (Case-sensitive)     |
+| slug-url    | Value Slug URL                  |
+| slug-url-cs | Value Slug URL (Case-sensitive) |

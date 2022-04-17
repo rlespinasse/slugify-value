@@ -25,10 +25,10 @@ inputs:
     required: true
 outputs:
   value:
-    description: "Value"
+    description: "The value to be slugify"
     value: ${{ steps.slugify.outputs.value }}
   slug:
-    description: "Value slug"
+    description: "Value Slug"
     value: ${{ steps.slugify.outputs.slug }}
   slug-cs:
     description: "Value Slug (Case-sensitive)"
