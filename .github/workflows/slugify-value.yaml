@@ -146,17 +146,17 @@ jobs:
         id: slugify-key-without-env-publication
         uses: ./
         with:
-          key: KEY_WITHTOUT_ENV_PUBLICATION
+          key: KEY_WITHOUT_ENV_PUBLICATION
           publish-env: false
         env:
-          KEY_WITHTOUT_ENV_PUBLICATION: "Never gonna give you up"
+          KEY_WITHOUT_ENV_PUBLICATION: "Never gonna give you up"
       - name: Validate // Slugify key without env publication
         run: |
-          [[ -z "${{ env.KEY_WITHTOUT_ENV_PUBLICATION }}" ]]
-          [[ -z "${{ env.KEY_WITHTOUT_ENV_PUBLICATION_SLUG }}" ]]
-          [[ -z "${{ env.KEY_WITHTOUT_ENV_PUBLICATION_SLUG_CS }}" ]]
-          [[ -z "${{ env.KEY_WITHTOUT_ENV_PUBLICATION_SLUG_URL }}" ]]
-          [[ -z "${{ env.KEY_WITHTOUT_ENV_PUBLICATION_SLUG_URL_CS }}" ]]
+          [[ -z "${{ env.KEY_WITHOUT_ENV_PUBLICATION }}" ]]
+          [[ -z "${{ env.KEY_WITHOUT_ENV_PUBLICATION_SLUG }}" ]]
+          [[ -z "${{ env.KEY_WITHOUT_ENV_PUBLICATION_SLUG_CS }}" ]]
+          [[ -z "${{ env.KEY_WITHOUT_ENV_PUBLICATION_SLUG_URL }}" ]]
+          [[ -z "${{ env.KEY_WITHOUT_ENV_PUBLICATION_SLUG_URL_CS }}" ]]
           [[ "${{ steps.slugify-key-without-env-publication.outputs.value }}" == "Never gonna give you up" ]]
           [[ "${{ steps.slugify-key-without-env-publication.outputs.slug }}" == "never-gonna-give-you-up" ]]
           [[ "${{ steps.slugify-key-without-env-publication.outputs.slug-cs }}" == "Never-gonna-give-you-up" ]]
