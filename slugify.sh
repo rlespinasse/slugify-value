@@ -51,8 +51,8 @@ reduce() {
   if [ "${MAX_LENGTH}" != "nolimit" ]; then
     reduced_value=$(cut -c1-"${MAX_LENGTH}" <<<"$1")
   fi
-  if [ "remove_ending_hypen" == "true" ]; then
-    reduced_value=$(sed -E 's/-*$//' <<<"$reduced_value")
+  if [ "$remove_ending_hypen" == "true" ]; then
+    reduced_value="${reduced_value//-*$/}"
   fi
   echo "$reduced_value"
 }
