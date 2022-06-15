@@ -55,6 +55,7 @@ reduce() {
     reduced_value="${reduced_value//-*$/}"
   fi
   echo "$reduced_value"
+}
 
 SLUG_VALUE=$(slug "$VALUE")
 SLUG_CS_VALUE=$(slug "$CS_VALUE")
