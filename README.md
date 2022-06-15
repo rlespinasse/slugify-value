@@ -18,7 +18,6 @@ Produce some `slug`-ed environment variables based on the input one.
 - `<env name>_SLUG_URL` (or `<env name>_SLUG_URL_CS`)
 
   - like `<env name>_SLUG` (or `<env name>_SLUG_CS`) with the `.`, and `_` characters also replaced by `-`
-  - will not end with `-`
 
 ## Usage
 

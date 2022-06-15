@@ -75,7 +75,7 @@ jobs:
         with:
           key: ANOTHER_MAX_LENGTH
           value: "Never gonna give you up Never gonna let you down"
-          slug-maxlength: 24
+          slug-maxlength: 23
       - name: Validate // Slugify with another max length
         run: |
           [[ "${{ env.ANOTHER_MAX_LENGTH }}" == "Never gonna give you up Never gonna let you down" ]]
