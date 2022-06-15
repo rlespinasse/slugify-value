@@ -33,7 +33,7 @@ slug() {
   # 3d : Remove leading dashes
   # 4d : Remove trailing dashes
   output=$(sed -E 's#refs/[^\/]*/##;s/[^a-zA-Z0-9._-]+/-/g;s/^-*//;s/-*$//' <<<"$1")
-  reduce "$output"
+  reduce "$output" false
 }
 
 slug_url() {
@@ -42,16 +42,19 @@ slug_url() {
   # 3d : Remove leading dashes
   # 4d : Remove trailing dashes
   output=$(sed -E 's#refs/[^\/]*/##;s/[^a-zA-Z0-9-]+/-/g;s/^-*//;s/-*$//' <<<"$1")
-  reduce "$output"
+  reduce "$output" true
 }
 
 reduce() {
-  if [ "${MAX_LENGTH}" == "nolimit" ]; then
-    echo "$1"
-  else
-    cut -c1-"${MAX_LENGTH}" <<<"$1"
+  reduced_value="$1"
+  remove_ending_hypen="$2"
+  if [ "${MAX_LENGTH}" != "nolimit" ]; then
+    reduced_value=$(cut -c1-"${MAX_LENGTH}" <<<"$1")
   fi
-}
+  if [ "remove_ending_hypen" == "true" ]; then
+    reduced_value="${reduced_value//-*$/}"
+  fi
+  echo "$reduced_value"
 
 SLUG_VALUE=$(slug "$VALUE")
 SLUG_CS_VALUE=$(slug "$CS_VALUE")
