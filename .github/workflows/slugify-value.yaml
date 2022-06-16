@@ -79,8 +79,8 @@ jobs:
       - name: Validate // Slugify with another max length
         run: |
           [[ "${{ env.ANOTHER_MAX_LENGTH }}" == "Never gonna give you up Never gonna let you down" ]]
-          [[ "${{ env.ANOTHER_MAX_LENGTH_SLUG }}" == "never-gonna-give-you-up-" ]]
-          [[ "${{ env.ANOTHER_MAX_LENGTH_SLUG_CS }}" == "Never-gonna-give-you-up-" ]]
+          [[ "${{ env.ANOTHER_MAX_LENGTH_SLUG }}" == "never-gonna-give-you-up" ]]
+          [[ "${{ env.ANOTHER_MAX_LENGTH_SLUG_CS }}" == "Never-gonna-give-you-up" ]]
           [[ "${{ env.ANOTHER_MAX_LENGTH_SLUG_URL }}" == "never-gonna-give-you-up" ]]
           [[ "${{ env.ANOTHER_MAX_LENGTH_SLUG_URL_CS }}" == "Never-gonna-give-you-up" ]]
         shell: bash
