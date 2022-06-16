@@ -8,8 +8,9 @@ Produce some `slug`-ed environment variables based on the input one.
 
   - put the variable content in lower case
   - replace any character by `-` except `0-9`, `a-z`, `.`, and `_`
-  - remove leading and trailing `-` character
+  - remove leading `-` character
   - limit the string size to 63 characters
+  - remove trailing `-` character
 
 - `<env name>_SLUG_CS`
 
@@ -18,7 +19,6 @@ Produce some `slug`-ed environment variables based on the input one.
 - `<env name>_SLUG_URL` (or `<env name>_SLUG_URL_CS`)
 
   - like `<env name>_SLUG` (or `<env name>_SLUG_CS`) with the `.`, and `_` characters also replaced by `-`
-  - will not end with `-`
 
 ## Usage
 

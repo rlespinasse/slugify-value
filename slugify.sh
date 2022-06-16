@@ -30,31 +30,26 @@ fi
 slug() {
   # 1st : Remove refs prefix
   # 2d : Replace unwanted characters
-  # 3d : Remove leading dashes
-  # 4d : Remove trailing dashes
-  output=$(sed -E 's#refs/[^\/]*/##;s/[^a-zA-Z0-9._-]+/-/g;s/^-*//;s/-*$//' <<<"$1")
-  reduce "$output" false
+  # 3d : Remove leading hypens
+  output=$(sed -E 's#refs/[^\/]*/##;s/[^a-zA-Z0-9._-]+/-/g;s/^-*//' <<<"$1")
+  reduce "$output"
 }
 
 slug_url() {
   # 1st : Remove refs prefix
   # 2d : Replace unwanted characters
-  # 3d : Remove leading dashes
-  # 4d : Remove trailing dashes
-  output=$(sed -E 's#refs/[^\/]*/##;s/[^a-zA-Z0-9-]+/-/g;s/^-*//;s/-*$//' <<<"$1")
-  reduce "$output" true
+  # 3d : Remove leading hypens
+  output=$(sed -E 's#refs/[^\/]*/##;s/[^a-zA-Z0-9-]+/-/g;s/^-*//' <<<"$1")
+  reduce "$output"
 }
 
 reduce() {
   reduced_value="$1"
-  remove_ending_hypen="$2"
   if [ "${MAX_LENGTH}" != "nolimit" ]; then
-    reduced_value=$(cut -c1-"${MAX_LENGTH}" <<<"$1")
+    reduced_value=$(cut -c1-"${MAX_LENGTH}" <<<"$reduced_value")
   fi
-  if [ "$remove_ending_hypen" == "true" ]; then
-    reduced_value=$(sed -E 's/-*$//' <<<"$reduced_value")
-  fi
-  echo "$reduced_value"
+  # 1st : Remove trailing hypens
+  sed -E 's/-*$//' <<<"$reduced_value"
 }
 
 SLUG_VALUE=$(slug "$VALUE")
