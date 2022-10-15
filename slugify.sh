@@ -57,11 +57,11 @@ SLUG_CS_VALUE=$(slug "$CS_VALUE")
 SLUG_URL_VALUE=$(slug_url "$VALUE")
 SLUG_URL_CS_VALUE=$(slug_url "$CS_VALUE")
 
-echo "::set-output name=value::${CS_VALUE}"
-echo "::set-output name=slug::${SLUG_VALUE}"
-echo "::set-output name=slug-cs::${SLUG_CS_VALUE}"
-echo "::set-output name=slug-url::${SLUG_URL_VALUE}"
-echo "::set-output name=slug-url-cs::${SLUG_URL_CS_VALUE}"
+echo "value=${CS_VALUE}" >> "$GITHUB_OUTPUT"
+echo "slug=${SLUG_VALUE}" >> "$GITHUB_OUTPUT"
+echo "slug-cs=${SLUG_CS_VALUE}" >> "$GITHUB_OUTPUT"
+echo "slug-url=${SLUG_URL_VALUE}" >> "$GITHUB_OUTPUT"
+echo "slug-url-cs=${SLUG_URL_CS_VALUE}" >> "$GITHUB_OUTPUT"
 
 if [ "${INPUT_PUBLISH_ENV}" == "true" ]; then
   {
