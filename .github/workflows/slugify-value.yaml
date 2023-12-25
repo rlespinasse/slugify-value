@@ -1,9 +1,12 @@
+---
 name: Slugify Value
 on:
   push:
     branches:
       - v1.x
   pull_request:
+# Disable line length check due to the content of the tests
+# yamllint disable rule:line-length
 jobs:
   os-testing:
     strategy:
