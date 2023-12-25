@@ -27,6 +27,9 @@ jobs:
         env:
           KEY_ONLY: "refs/head/$-Key_Only.test--value-%-+"
       - name: Validate // Slugify key only
+        # Disable SC2193 because the first line of the test is flag by shellcheck
+        # as the comparison can never be equal but the test pass.
+        # Seem a false-positive due to the test context.
         run: |
           # shellcheck disable=SC2193
           [[ "${{ env.KEY_ONLY }}" == "refs/head/$-Key_Only.test--value-%-+" ]]
