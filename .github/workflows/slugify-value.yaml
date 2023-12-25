@@ -1,9 +1,12 @@
+---
 name: Slugify Value
 on:
   push:
     branches:
       - v1.x
   pull_request:
+# Disable line length check due to the content of the tests
+# yamllint disable rule:line-length
 jobs:
   os-testing:
     strategy:
@@ -13,7 +16,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Test 1
       - name: Slugify key only
@@ -24,7 +27,11 @@ jobs:
         env:
           KEY_ONLY: "refs/head/$-Key_Only.test--value-%-+"
       - name: Validate // Slugify key only
+        # Disable SC2193 because the first line of the test is flag by shellcheck
+        # as the comparison can never be equal but the test pass.
+        # Seem a false-positive due to the test context.
         run: |
+          # shellcheck disable=SC2193
           [[ "${{ env.KEY_ONLY }}" == "refs/head/$-Key_Only.test--value-%-+" ]]
           [[ "${{ env.KEY_ONLY_SLUG }}" == "key_only.test--value" ]]
           [[ "${{ env.KEY_ONLY_SLUG_CS }}" == "Key_Only.test--value" ]]
@@ -172,7 +179,7 @@ jobs:
       - os-testing
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Release
       - name: Release this GitHub Action
