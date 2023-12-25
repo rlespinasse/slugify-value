@@ -28,6 +28,7 @@ jobs:
           KEY_ONLY: "refs/head/$-Key_Only.test--value-%-+"
       - name: Validate // Slugify key only
         run: |
+          # shellcheck disable=SC2193
           [[ "${{ env.KEY_ONLY }}" == "refs/head/$-Key_Only.test--value-%-+" ]]
           [[ "${{ env.KEY_ONLY_SLUG }}" == "key_only.test--value" ]]
           [[ "${{ env.KEY_ONLY_SLUG_CS }}" == "Key_Only.test--value" ]]
