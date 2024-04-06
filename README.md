@@ -100,6 +100,7 @@ Produce some `slug`-ed environment variables based on the input one.
     with:
       key: KEY_NAME
       value: value_to_slugify
+      publish-env: false
   ```
 
   Will **not** make available
