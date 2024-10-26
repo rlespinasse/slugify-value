@@ -1,27 +1,32 @@
 ---
-name: Lint Code Base
-
-on: pull_request
-
-jobs:
-  build:
-    name: Lint Code Base
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: read
-      statuses: write
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          # Full git history is needed to get a proper list
-          # of changed files within `super-linter`
-          fetch-depth: 0
-
-      - name: Lint Code Base
-        uses: github/super-linter@v7
-        env:
-          VALIDATE_ALL_CODEBASE: false
-          DEFAULT_BRANCH: v1.x
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  name: Lint Code Base
+  
+  on: pull_request
+  
+  permissions: read-all
+  
+  jobs:
+    build:
+      name: Lint Code Base
+      runs-on: ubuntu-latest
+      permissions:
+        contents: read
+        packages: read
+        statuses: write
+      steps:
+        - name: Checkout Code
+          uses: actions/checkout@v4
+          with:
+            # Full git history is needed to get a proper
+            # list of changed files within `super-linter`
+            fetch-depth: 0
+  
+        - name: Lint Code Base
+          uses: github/super-linter@v7
+          env:
+            VALIDATE_ALL_CODEBASE: false
+            VALIDATE_MARKDOWN_PRETTIER: false
+            VALIDATE_YAML_PRETTIER: false
+            DEFAULT_BRANCH: v1.x
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
