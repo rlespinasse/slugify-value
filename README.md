@@ -8,16 +8,16 @@ This action creates standardized slug versions of your input variables, offering
 ## Output Formats
 
 - `<env name>_SLUG`
-   - Converts text to lowercase
-   - Replaces special characters with **-** (except **0-9**, **a-z**, **.**, and **_**)
-   - Removes leading and trailing **-$*
-   - Limits string length to **63** characters
+  - Converts text to lowercase
+  - Replaces special characters with **-** (except **0-9**, **a-z**, **.**, and **_**)
+  - Removes leading and trailing **-$*
+  - Limits string length to **63** characters
 - `<env name>_SLUG_CS`
-   - Same as `_SLUG` but preserves original case sensitivity
+  - Same as `_SLUG` but preserves original case sensitivity
 - `<env name>_SLUG_URL` and `<env name>_SLUG_URL_CS`
-   - Same as their respective base versions (`_SLUG` or `_SLUG_CS`)
-   - Additionally replaces **.** and **_** with **-**
-   - Perfect for URL-safe strings
+  - Same as their respective base versions (`_SLUG` or `_SLUG_CS`)
+  - Additionally replaces **.** and **_** with **-**
+  - Perfect for URL-safe strings
 
 Each output variable maintains consistent formatting rules while serving different use cases, from basic slugification to URL-ready strings.
 
