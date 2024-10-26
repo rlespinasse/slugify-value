@@ -1,24 +1,25 @@
 # Slugify
 
-> Github Action to slugify a value
+> [!NOTE]
+> A GitHub Action that transforms input strings into URL-friendly slugs
 
-Produce some `slug`-ed environment variables based on the input one.
+This action creates standardized slug versions of your input variables, offering multiple formatting options:
+
+## Output Formats
 
 - `<env name>_SLUG`
-
-  - put the variable content in lower case
-  - replace any character by `-` except `0-9`, `a-z`, `.`, and `_`
-  - remove leading `-` character
-  - limit the string size to 63 characters
-  - remove trailing `-` character
-
+   - Converts text to lowercase
+   - Replaces special characters with **-** (except **0-9**, **a-z**, **.**, and **_**)
+   - Removes leading and trailing **-$*
+   - Limits string length to **63** characters
 - `<env name>_SLUG_CS`
+   - Same as `_SLUG` but preserves original case sensitivity
+- `<env name>_SLUG_URL` and `<env name>_SLUG_URL_CS`
+   - Same as their respective base versions (`_SLUG` or `_SLUG_CS`)
+   - Additionally replaces **.** and **_** with **-**
+   - Perfect for URL-safe strings
 
-  - like `<env name>_SLUG` but the content is not put in lower case
-
-- `<env name>_SLUG_URL` (or `<env name>_SLUG_URL_CS`)
-
-  - like `<env name>_SLUG` (or `<env name>_SLUG_CS`) with the `.`, and `_` characters also replaced by `-`
+Each output variable maintains consistent formatting rules while serving different use cases, from basic slugification to URL-ready strings.
 
 ## Usage
 
